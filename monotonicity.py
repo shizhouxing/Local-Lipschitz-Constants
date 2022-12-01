@@ -6,58 +6,6 @@ from auto_LiRPA.utils import get_spec_matrix
 from bab import bab_gradnorm
 from tqdm import tqdm
 
-def monotonicity_mnist(args, model, test_data):
-  """ Toy monotonicity analysis on MNIST """
-
-  def verify(args, model, x, y):
-    x = x.unsqueeze(0).cuda()
-    label = torch.Tensor([y]).cuda().long()
-
-    mono_lower = torch.zeros_like(x)
-    mono_upper = torch.zeros_like(x)
-    for i in range(len(x[0])):
-      for j in range(len(x[0][0])):
-        for k in range(len(x[0][0][0])):
-          data_lb = x.clone()
-          data_ub = x.clone()
-          data_lb[0,i,j,k] = 0
-          data_ub[0,i,j,k] = 1.0
-
-          ptb = PerturbationLpNorm(
-            norm=args.norm, eps=None, x_L=data_lb, x_U=data_ub)
-          x = data = BoundedTensor(x, ptb)
-
-          grad_start = torch.zeros(1, 1, args.num_classes).to(x)
-          # TODO Only check the ground-truth label for now
-          grad_start[0, 0, label.item()] = 1
-          y = model(x, grad_start)
-          model(x, grad_start)
-
-          c = torch.ones(1, 1, 1).to(x)
-          c_forward = get_spec_matrix(data, label, args.num_classes)
-
-          model(x, grad_start)
-          ret = bab_gradnorm(
-            model, x, grad_start, c=-c, c_forward=c_forward, args=args)
-          mono_lower[0,i,j,k] = ret[0][0,0, i*784 + j * 28 + k].detach().cpu()
-          mono_upper[0,i,j,k] = ret[1][0,0, i*784 + j * 28 + k].detach().cpu()
-
-    torch.save(mono_lower, f'mono_lower_{label.item()}_.torch')
-    torch.save(mono_upper, f'mono_upper_{label.item()}_.torch')
-    torch.save(x.squeeze(), f'input_{label.item()}_.torch')
-
-  label_set = set()
-  i=0
-  while True:
-    if test_data.dataset[i][1] in label_set:
-      i += 1
-      continue
-    label_set.add(test_data.dataset[i][1])
-    verify(args, model, *test_data.dataset[i])
-    i += 1
-    if len(label_set) == 10:
-      break
-
 def monotonicity(args, model, loader):
   """ New monotonicity analysis on the Adult dataset """
   num_features = loader.dataset[0][0].shape[0]

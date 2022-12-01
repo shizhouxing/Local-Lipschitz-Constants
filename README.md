@@ -2,12 +2,12 @@
 
 Code for paper:
 
-Efficiently Computing Local Lipschitz Constants of Neural Networks via Bound Propagation,
-by Zhouxing Shi, Yihan Wang, Huan Zhang, Zico Kolter and Cho-Jui Hsieh.
-To appear in NeurIPS 2022.
+[Efficiently Computing Local Lipschitz Constants of Neural Networks via Bound Propagation](https://arxiv.org/abs/2210.07394),
+by Zhouxing Shi, Yihan Wang, Huan Zhang, Zico Kolter and Cho-Jui Hsieh. In NeurIPS 2022.
 
-The code is partly based on [auto_LiRPA](https://github.com/Verified-Intelligence/auto_LiRPA)
-and [alpha-beta-CROWN](https://github.com/Verified-Intelligence/alpha-beta-CROWN).
+The core implementation of this paper is now a part of [auto_LiRPA](https://github.com/Verified-Intelligence/auto_LiRPA).
+See the [example](https://github.com/Verified-Intelligence/auto_LiRPA/blob/master/examples/vision/jacobian.py) about bounding Jacobian, Jacobian-vector product, and Linf local Lipschitz constants.
+
 
 ## Dependencies
 
@@ -52,9 +52,3 @@ can be specified by `--model-params width=WIDTH` or `--model-params depth=DEPTH`
 By default, BaB is not used. To enable Branch-and-Bound (BaB), add `--bab`, and the time
 budget can be set by `--timeout TIMEOUT`. Batch size of BaB can be set by `--batch-size BATCH-SIZE`
 to fit it into the GPU memory.
-
-## Code Under Development
-
-This code is still under development. We will gradually integrate part of the code
-into [auto\_LiRPA](https://github.com/Verified-Intelligence/auto_LiRPA). We will
-also release some pre-trained models used in the experiments.

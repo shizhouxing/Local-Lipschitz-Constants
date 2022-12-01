@@ -24,8 +24,6 @@ def add_arguments_lipschitz(parser):
   parser.add_argument('--no-optimize', action='store_true')
   parser.add_argument('--cnn-to-mlp', action='store_true',
                       help='Convert CNN to MLP for baselines.')
-  parser.add_argument('--single-class', action='store_true',
-                      help='Only consider the ground-truth class')
   parser.add_argument('--mono', action='store_true', help='Monotonicity.')
   parser.add_argument('--clean', action='store_true', help='Clean evaluation.')
   parser.add_argument('--fix-preact-gradnorm', action='store_true',

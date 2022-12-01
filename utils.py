@@ -5,6 +5,7 @@ import torch
 import torch.nn as nn
 from models import * # pylint: disable=wildcard-import,unused-wildcard-import
 from convert import convert_recurjac_model
+from auto_LiRPA.utils import MultiAverageMeter
 
 ce_loss = nn.CrossEntropyLoss()
 
@@ -82,3 +83,16 @@ def prepare_model(args):
     model_ori.load_state_dict(state_dict, strict=False)
 
   return model_ori
+
+def evaluate_clean(model, loader):
+  print('Evaluating clean accuracy')
+  model.eval()
+  meter = MultiAverageMeter()
+  with torch.no_grad():
+    for (data, labels) in loader:
+      data, labels = data.cuda(), labels.cuda()
+      y = model(data)
+      pred = y.argmax(dim=-1)
+      meter.update('acc', (pred == labels).float().mean(), data.size(0))
+  acc = meter.avg('acc')
+  print(f'Clean accuracy {acc:.4f}')

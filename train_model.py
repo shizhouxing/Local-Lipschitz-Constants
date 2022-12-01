@@ -19,7 +19,6 @@ parser.add_argument('--num-epochs', type=int, default=10)
 parser.add_argument('--lr', type=float, default=0.001)
 parser.add_argument('--width', type=int, default=32, help='For synthetic data')
 parser.add_argument('--depth', type=int, default=3, help='For synthetic data')
-parser.add_argument('--save_name', type=str)
 args = parser.parse_args()
 
 def train(model, train_loader, test_loader, dummy_input):
