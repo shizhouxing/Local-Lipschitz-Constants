@@ -8,6 +8,8 @@ by Zhouxing Shi, Yihan Wang, Huan Zhang, Zico Kolter and Cho-Jui Hsieh. In NeurI
 The core implementation of this paper is now a part of [auto_LiRPA](https://github.com/Verified-Intelligence/auto_LiRPA).
 See the [example](https://github.com/Verified-Intelligence/auto_LiRPA/blob/master/examples/vision/jacobian.py) about bounding Jacobian, Jacobian-vector product, and Linf local Lipschitz constants.
 
+For reproducing our results, please install [auto\_LiRPA version 0.3.1](https://github.com/Verified-Intelligence/auto_LiRPA/tree/d2592c13198e0eb536967186758c264604b59539) which was released in November, 2022. 
+We are working on a more general and flexible support for Jacobian in auto\_LiRPA.
 
 ## Dependencies
 
